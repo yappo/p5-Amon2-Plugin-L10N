@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 use 5.008_005;
-our $VERSION = 'v0.1.0';
+our $VERSION = 'v0.1.1';
 
 use File::Spec;
 use HTTP::AcceptLanguage;

@@ -65,7 +65,7 @@
          "web" : "https://github.com/yappo/p5-Amon2-Plugin-L10N"
       }
    },
-   "version" : "v0.1.0",
+   "version" : "v0.1.1",
    "x_contributors" : [
       "Kazuhiro Osawa <yappo@shibuya.pl>"
    ]

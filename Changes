@@ -2,5 +2,11 @@ Revision history for Amon2-Plugin-Web-L10N
 
 {{$NEXT}}
 
+v0.1.1  2013-05-08 22:02:00 JST
+        - add lexicon_options option
+        - changed to default of Locale::Maketext::Lexicon is _auto => 1
+        - CLI safety and friendly
+        - detection objects cache
+
 v0.1.0  2013-05-08 21:03:06 JST
         - Initial release
