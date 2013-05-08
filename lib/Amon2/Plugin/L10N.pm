@@ -155,7 +155,7 @@ Amon2::Plugin::L10N is
 =head2 hook of after language detection
 
   __PACKAGE__->load_plugins('L10N' => {
-      accept_langs         => [qw/ en ja zh-tw zh-cn fr /],
+      accept_langs         => [qw/ en ja zh zh-tw zh-cn fr /],
       after_detection_hook => sub {
           my($c, $lang) = shift;
           return 'zh' if $lang =~ /\Azh(?:-.+)\z/;
