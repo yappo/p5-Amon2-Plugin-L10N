@@ -34,6 +34,7 @@ sub init {
 
     Amon2::Util::add_method($c, l10n_language_detection => sub {
         my $context = shift;
+        return $context->{l10n_language_detection} if ref($context) && $context->{l10n_language_detection};
         my $lang;
 
         if ($conf->{before_detection_hook}) {
@@ -46,11 +47,17 @@ sub init {
         $lang = $default_lang unless defined $lang;
         $lang = $conf->{after_detection_hook}->($context, $lang) if $conf->{after_detection_hook};
 
+        $context->{l10n_language_detection} = $lang if ref($context);
         return $lang;
     });
 
+    my %l10n;
+    for my $lang (@{ $accept_langs }) {
+        $l10n{$lang} = $l10n_class->get_handle($lang);
+    }
+    my $default_l10n = $default_lang ? $l10n{$default_lang} : undef;
     Amon2::Util::add_method($c, l10n => sub {
-        $l10n_class->get_handle($_[0]->l10n_language_detection);
+        $l10n{$_[0]->l10n_language_detection} || $default_l10n;
     });
 
     Amon2::Util::add_method($c, loc => sub {
