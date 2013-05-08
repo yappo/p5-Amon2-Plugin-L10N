@@ -44,14 +44,16 @@ Amon2::Plugin::L10N is
         accept_langs          => [qw/ en ja zh-tw zh-cn fr /],
         before_detection_hook => sub {
             my $c = shift;
+    
 
-          my $lang = $c->req->param('lang');
-          if ($lang && $lang =~ /\A(?:en|ja|zh-tw)\z/) {
-              $c->session->set( lang => $lang );
-              return $lang;
-          } else {
-              $c->session->set( lang => '' );
-          }
+            my $lang = $c->req->param('lang');
+            if ($lang && $lang =~ /\A(?:en|ja|zh-tw)\z/) {
+                $c->session->set( lang => $lang );
+                return $lang;
+            } else {
+                $c->session->set( lang => '' );
+            }
+    
 
             $lang = $c->session->get('lang');
             if ($lang && $lang =~ /\A(?:en|ja|zh-tw)\z/) {
@@ -93,6 +95,7 @@ Amon2::Plugin::L10N is
     use warnings;
     use parent 'Locale::Maketext';
     use File::Spec;
+    
 
     use Locale::Maketext::Lexicon +{
         'ja'     => [ Gettext => File::Spec->catfile('t', 'po', 'ja.po') ],
@@ -100,6 +103,7 @@ Amon2::Plugin::L10N is
         _style   => 'gettext',
         _decode  => 1,
     };
+    
 
     # in your MyApp.pm
     __PACKAGE__->load_plugins('L10N' => {

@@ -138,7 +138,7 @@ Amon2::Plugin::L10N is
       accept_langs          => [qw/ en ja zh-tw zh-cn fr /],
       before_detection_hook => sub {
           my $c = shift;
-
+  
           my $lang = $c->req->param('lang');
           if ($lang && $lang =~ /\A(?:en|ja|zh-tw)\z/) {
               $c->session->set( lang => $lang );
@@ -146,7 +146,7 @@ Amon2::Plugin::L10N is
           } else {
               $c->session->set( lang => '' );
           }
-
+  
           $lang = $c->session->get('lang');
           if ($lang && $lang =~ /\A(?:en|ja|zh-tw)\z/) {
               return $lang;
@@ -182,24 +182,24 @@ Amon2::Plugin::L10N is
 
 =head2 you can implement L10N class yourself 
 
-    package L10N;
-    use strict;
-    use warnings;
-    use parent 'Locale::Maketext';
-    use File::Spec;
-
-    use Locale::Maketext::Lexicon +{
-        'ja'     => [ Gettext => File::Spec->catfile('t', 'po', 'ja.po') ],
-        _preload => 1,
-        _style   => 'gettext',
-        _decode  => 1,
-    };
-
-    # in your MyApp.pm
-    __PACKAGE__->load_plugins('L10N' => {
-        accept_langs => [qw/ ja /],
-        l10n_class   => 'L10N',
-    });
+  package L10N;
+  use strict;
+  use warnings;
+  use parent 'Locale::Maketext';
+  use File::Spec;
+  
+  use Locale::Maketext::Lexicon +{
+      'ja'     => [ Gettext => File::Spec->catfile('t', 'po', 'ja.po') ],
+      _preload => 1,
+      _style   => 'gettext',
+      _decode  => 1,
+  };
+  
+  # in your MyApp.pm
+  __PACKAGE__->load_plugins('L10N' => {
+      accept_langs => [qw/ ja /],
+      l10n_class   => 'L10N',
+  });
 
 =head1 Translation Step
 
