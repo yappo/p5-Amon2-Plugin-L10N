@@ -12,17 +12,6 @@ use Plack::Builder;
 
     sub load_config { +{} }
 
-    package MyApp::Web;
-    use parent -norequire, qw/MyApp/;
-    use parent qw/Amon2::Web/;
-    use Encode;
-    use File::Spec;
-
-    sub dispatch {
-        my $c = shift;
-        $c->create_response(200, [], [ encode( utf8 => $c->loc('Hello, %1', 'yappo') ) ]);
-    }
-
     __PACKAGE__->load_plugins(
         'L10N' => {
             default_lang          => '',
@@ -38,6 +27,17 @@ use Plack::Builder;
             },
         },
     );
+
+    package MyApp::Web;
+    use parent -norequire, qw/MyApp/;
+    use parent qw/Amon2::Web/;
+    use Encode;
+    use File::Spec;
+
+    sub dispatch {
+        my $c = shift;
+        $c->create_response(200, [], [ encode( utf8 => $c->loc('Hello, %1', 'yappo') ) ]);
+    }
 }
 
 my $app = MyApp::Web->to_app;
@@ -90,8 +90,16 @@ subtest 'default' => sub {
 
     sub load_config { +{} }
 
+    __PACKAGE__->load_plugins(
+        'L10N' => {
+            default_lang          => '',
+            accept_langs          => [qw/ en /],
+            po_dir                => File::Spec->catfile(qw/ t po /),
+        },
+    );
+
     package MyApp2::Web;
-    use parent -norequire, qw/MyApp/;
+    use parent -norequire, qw/MyApp2/;
     use parent qw/Amon2::Web/;
     use Encode;
     use File::Spec;
@@ -100,14 +108,6 @@ subtest 'default' => sub {
         my $c = shift;
         $c->create_response(200, [], [ encode( utf8 => $c->loc('Hello, %1', 'yappo') ) ]);
     }
-
-    __PACKAGE__->load_plugins(
-        'L10N' => {
-            default_lang          => '',
-            accept_langs          => [qw/ en /],
-            po_dir                => File::Spec->catfile(qw/ t po /),
-        },
-    );
 }
 
 my $app2 = MyApp2::Web->to_app;
@@ -132,8 +132,16 @@ subtest 'en' => sub {
 
     sub load_config { +{} }
 
+    __PACKAGE__->load_plugins(
+        'L10N' => {
+            default_lang          => 'ja',
+            accept_langs          => [qw/ ja /],
+            po_dir                => File::Spec->catfile(qw/ t po /),
+        },
+    );
+
     package MyApp3::Web;
-    use parent -norequire, qw/MyApp/;
+    use parent -norequire, qw/MyApp3/;
     use parent qw/Amon2::Web/;
     use Encode;
     use File::Spec;
@@ -142,14 +150,6 @@ subtest 'en' => sub {
         my $c = shift;
         $c->create_response(200, [], [ encode( utf8 => $c->loc('Japan Hello, %1', 'yappo') ) ]);
     }
-
-    __PACKAGE__->load_plugins(
-        'L10N' => {
-            default_lang          => 'ja',
-            accept_langs          => [qw/ ja /],
-            po_dir                => File::Spec->catfile(qw/ t po /),
-        },
-    );
 }
 
 my $app3 = MyApp3::Web->to_app;

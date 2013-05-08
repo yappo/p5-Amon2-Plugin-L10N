@@ -12,17 +12,6 @@ use Plack::Builder;
 
     sub load_config { +{} }
 
-    package MyApp::Web;
-    use parent -norequire, qw/MyApp/;
-    use parent qw/Amon2::Web/;
-    use Encode;
-    use File::Spec;
-
-    sub dispatch {
-        my $c = shift;
-        $c->create_response(200, [], [ encode( utf8 => $c->loc('Hello, %1', 'yappo') ) ]);
-    }
-
     __PACKAGE__->load_plugins(
         'L10N' => {
             accept_langs         => [qw/ en ja th /],
@@ -37,6 +26,17 @@ use Plack::Builder;
             },
         },
     );
+
+    package MyApp::Web;
+    use parent -norequire, qw/MyApp/;
+    use parent qw/Amon2::Web/;
+    use Encode;
+    use File::Spec;
+
+    sub dispatch {
+        my $c = shift;
+        $c->create_response(200, [], [ encode( utf8 => $c->loc('Hello, %1', 'yappo') ) ]);
+    }
 }
 
 my $app = MyApp::Web->to_app;

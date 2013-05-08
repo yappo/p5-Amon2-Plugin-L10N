@@ -12,6 +12,13 @@ use Plack::Builder;
 
     sub load_config { +{} }
 
+    __PACKAGE__->load_plugins(
+        'L10N' => {
+            accept_langs         => [qw/ en ja th /],
+            po_dir               => File::Spec->catfile(qw/ t po /),
+        },
+    );
+
     package MyApp::Web;
     use parent -norequire, qw/MyApp/;
     use parent qw/Amon2::Web/;
@@ -22,13 +29,6 @@ use Plack::Builder;
         my $c = shift;
         $c->create_response(200, [], [ encode( utf8 => $c->loc('good') ) ]);
     }
-
-    __PACKAGE__->load_plugins(
-        'L10N' => {
-            accept_langs         => [qw/ en ja th /],
-            po_dir               => File::Spec->catfile(qw/ t po /),
-        },
-    );
 }
 
 my $app = MyApp::Web->to_app;
@@ -54,6 +54,16 @@ subtest 'good' => sub {
 
     sub load_config { +{} }
 
+    __PACKAGE__->load_plugins(
+        'L10N' => {
+            accept_langs         => [qw/ en ja th /],
+            po_dir               => File::Spec->catfile(qw/ t po /),
+            lexicon_options      => {
+                _auto => 0,
+            },
+        },
+    );
+
     package MyApp2::Web;
     use parent -norequire, qw/MyApp2/;
     use parent qw/Amon2::Web/;
@@ -64,16 +74,6 @@ subtest 'good' => sub {
         my $c = shift;
         $c->create_response(200, [], [ encode( utf8 => $c->loc('bad exception') ) ]);
     }
-
-    __PACKAGE__->load_plugins(
-        'L10N' => {
-            accept_langs         => [qw/ en ja th /],
-            po_dir               => File::Spec->catfile(qw/ t po /),
-            lexicon_options      => {
-                _auto => 0,
-            },
-        },
-    );
 }
 
 my $app2 = MyApp2::Web->to_app;
