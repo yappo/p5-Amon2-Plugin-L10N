@@ -219,9 +219,6 @@ Amon2::Plugin::L10N is L10N support plugin for Amon2.
   $ vim po/ja.po
   $ vim po/zh-tw.po
 
-you must edit C<"Content-Type: text/plain; charset=CHARSET\n"> line of C<*.po> file.
-I suggest C<CHARTSET> is C<UTF-8>.
-
 =head1 AUTHOR
 
 Kazuhiro Osawa E<lt>yappo {at} shibuya {dot} plE<gt>
