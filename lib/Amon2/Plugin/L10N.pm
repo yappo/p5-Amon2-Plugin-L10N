@@ -23,12 +23,13 @@ sub init {
     die 'accept_langs is not array reference'
         unless ref($accept_langs) eq 'ARRAY';
 
-    $conf->{po_dir} ||= 'po';
+    $conf->{po_dir}          ||= 'po';
+    $conf->{lexicon_options} ||= {};
 
     my $l10n_class = $conf->{l10n_class};
     unless ($l10n_class) {
         $l10n_class = join '::', $c, 'L10N';
-        $class->generate_l10n_class($c, $accept_langs, $default_lang, $conf->{po_dir});
+        $class->generate_l10n_class($c, $accept_langs, $default_lang, $conf->{po_dir}, $conf->{lexicon_options});
     }
 
     Amon2::Util::add_method($c, l10n_language_detection => sub {
@@ -61,32 +62,33 @@ sub init {
 }
 
 sub generate_l10n_class {
-    my($class, $klass, $accept_langs, $default_lang, $po_dir) = @_;
+    my($class, $klass, $accept_langs, $default_lang, $po_dir, $lexicon_options) = @_;
 
     # make package variable
     {
-        my $opt = {
+        my %opt = (
             _preload => 1,
             _style   => 'gettext',
             _decode  => 1,
-        };
+            _auto    => 1,
+        );
 
         for my $lang (@{ $accept_langs }) {
             if ($lang eq $default_lang) {
-                $opt->{$lang} = [ 'Auto' ];
+                $opt{$lang} = [ 'Auto' ];
             } else {
-                $opt->{$lang} = [ Gettext => File::Spec->catfile($po_dir, "$lang.po") ];
+                $opt{$lang} = [ Gettext => File::Spec->catfile($po_dir, "$lang.po") ];
             }
         }
 
         no strict 'refs';
-        ${"$klass\::L10N::LEXICON_OPTION"} = $opt;
+        ${"$klass\::L10N::LEXICON_OPTIONS"} = +{ %opt, %{ $lexicon_options } };
     };
 
     my $code = qq!
 package $klass\::L10N;
 use parent 'Locale::Maketext';
-use Locale::Maketext::Lexicon \$$klass\::L10N::LEXICON_OPTION;
+use Locale::Maketext::Lexicon \$$klass\::L10N::LEXICON_OPTIONS;
 1;
 !;
     eval $code or die $@;
@@ -181,6 +183,16 @@ Amon2::Plugin::L10N is L10N support plugin for Amon2.
           return 'ja' if $ENV{LANG} =~ /ja/i;
           return 'en' if $ENV{LANG} =~ /en/i;
           return; # use default lang
+      },
+  });
+
+=head2 you can set L<Locale::Maketext::Lexicon> options
+
+  # in your MyApp.pm
+  __PACKAGE__->load_plugins('L10N' => {
+      accept_langs   => [qw/ ja /],
+      lexicon_options => {
+          _auto => 0,
       },
   });
 
