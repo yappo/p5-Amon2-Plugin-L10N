@@ -99,7 +99,7 @@ Amon2::Plugin::L10N - L10N support for Amon2
 
 =head1 DESCRIPTION
 
-Amon2::Plugin::L10N is
+Amon2::Plugin::L10N is L10N support plugin for Amon2.
 
 =head1 Implementation L10N for your App
 
