@@ -88,6 +88,16 @@ Amon2::Plugin::L10N is L10N support plugin for Amon2.
         },
     });
 
+## you can set [Locale::Maketext::Lexicon](http://search.cpan.org/perldoc?Locale::Maketext::Lexicon) options
+
+    # in your MyApp.pm
+    __PACKAGE__->load_plugins('L10N' => {
+        accept_langs   => [qw/ ja /],
+        lexicon_options => {
+            _auto => 0,
+        },
+    });
+
 ## you can implement L10N class yourself 
 
     package L10N;
