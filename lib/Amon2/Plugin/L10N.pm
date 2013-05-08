@@ -39,7 +39,7 @@ sub init {
         if ($conf->{before_detection_hook}) {
             $lang = $conf->{before_detection_hook}->($context);
         }
-        unless ($lang) {
+        if (! defined $lang && ref($context)) {
             $lang = HTTP::AcceptLanguage->new($context->req->header('Accept-Language'))->match(@{ $accept_langs });
         }
 
