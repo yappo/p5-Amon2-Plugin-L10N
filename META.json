@@ -1,5 +1,5 @@
 {
-   "abstract" : "Blah blah blah",
+   "abstract" : "L10N support for Amon2",
    "author" : [
       "Kazuhiro Osawa <yappo {at} shibuya {dot} pl>"
    ],
@@ -12,7 +12,7 @@
       "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
       "version" : "2"
    },
-   "name" : "Amon2-Plugin-Web-L10N",
+   "name" : "Amon2-Plugin-L10N",
    "no_index" : {
       "directory" : [
          "t",
@@ -36,16 +36,35 @@
       },
       "runtime" : {
          "requires" : {
+            "Amon2" : "0",
+            "HTTP::AcceptLanguage" : "0.01",
+            "Locale::Maketext" : "0",
+            "parent" : "0",
             "perl" : "5.008005"
          }
       },
       "test" : {
          "requires" : {
-            "Test::More" : "0.88"
+            "Test::More" : "0.88",
+            "Test::WWW::Mechanize::PSGI" : "0"
          }
       }
    },
    "release_status" : "stable",
-   "version" : "0.01"
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/yappo/p5-Amon2-Plugin-L10N/issues"
+      },
+      "homepage" : "https://github.com/yappo/p5-Amon2-Plugin-L10N",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/yappo/p5-Amon2-Plugin-L10N.git",
+         "web" : "https://github.com/yappo/p5-Amon2-Plugin-L10N"
+      }
+   },
+   "version" : "0.01",
+   "x_contributors" : [
+      "Kazuhiro Osawa <yappo@shibuya.pl>"
+   ]
 }
 
