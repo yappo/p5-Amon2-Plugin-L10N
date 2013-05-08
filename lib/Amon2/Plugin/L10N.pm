@@ -151,6 +151,7 @@ Amon2::Plugin::L10N is L10N support plugin for Amon2.
       accept_langs          => [qw/ en ja zh-tw zh-cn fr /],
       before_detection_hook => sub {
           my $c = shift;
+          return unless ref($c);
   
           my $accept_re = qr/\A(?:en|ja|zh-tw)\z/;
           my $lang = $c->req->param('lang');
