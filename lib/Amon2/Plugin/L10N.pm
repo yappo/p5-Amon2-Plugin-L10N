@@ -24,7 +24,11 @@ sub init {
 
     $conf->{po_dir} ||= 'po';
 
-    $class->generate_l10n_class($c, $accept_langs, $default_lang, $conf->{po_dir});
+    my $l10n_class = $conf->{l10n_class};
+    unless ($l10n_class) {
+        $l10n_class = join '::', $c, 'L10N';
+        $class->generate_l10n_class($c, $accept_langs, $default_lang, $conf->{po_dir});
+    }
 
     Amon2::Util::add_method($c, l10n_language_detection => sub {
         my $context = shift;
@@ -43,7 +47,6 @@ sub init {
         return $lang;
     });
 
-    my $l10n_class = join '::', $c, 'L10N';
     Amon2::Util::add_method($c, l10n => sub {
         $l10n_class->get_handle($_[0]->l10n_language_detection);
     });
@@ -176,6 +179,27 @@ Amon2::Plugin::L10N is
           return; # use default lang
       },
   });
+
+=head2 you can implement L10N class yourself 
+
+    package L10N;
+    use strict;
+    use warnings;
+    use parent 'Locale::Maketext';
+    use File::Spec;
+
+    use Locale::Maketext::Lexicon +{
+        'ja'     => [ Gettext => File::Spec->catfile('t', 'po', 'ja.po') ],
+        _preload => 1,
+        _style   => 'gettext',
+        _decode  => 1,
+    };
+
+    # in your MyApp.pm
+    __PACKAGE__->load_plugins('L10N' => {
+        accept_langs => [qw/ ja /],
+        l10n_class   => 'L10N',
+    });
 
 =head1 Translation Step
 
