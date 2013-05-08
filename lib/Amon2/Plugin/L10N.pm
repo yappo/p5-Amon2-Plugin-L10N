@@ -5,6 +5,7 @@ use warnings;
 use 5.008_005;
 our $VERSION = '0.01';
 
+use File::Spec;
 use HTTP::AcceptLanguage;
 
 sub init {
@@ -62,27 +63,30 @@ sub init {
 sub generate_l10n_class {
     my($class, $klass, $accept_langs, $default_lang, $po_dir) = @_;
 
+    # make package variable
+    {
+        my $opt = {
+            _preload => 1,
+            _style   => 'gettext',
+            _decode  => 1,
+        };
+
+        for my $lang (@{ $accept_langs }) {
+            if ($lang eq $default_lang) {
+                $opt->{$lang} = [ 'Auto' ];
+            } else {
+                $opt->{$lang} = [ Gettext => File::Spec->catfile($po_dir, "$lang.po") ];
+            }
+        }
+
+        no strict 'refs';
+        ${"$klass\::L10N::LEXICON_OPTION"} = $opt;
+    };
+
     my $code = qq!
 package $klass\::L10N;
-use strict;
-use warnings;
 use parent 'Locale::Maketext';
-use File::Spec;
-
-use Locale::Maketext::Lexicon +{
-!;
-    for my $lang (@{ $accept_langs }) {
-        if ($lang eq $default_lang) {
-            $code .= "    '$lang'       => [ 'Auto' ],\n";
-        } else {
-            $code .= "    '$lang'       => [ Gettext => File::Spec->catfile('$po_dir', '$lang.po') ],\n";
-        }
-    }
-    $code .= qq!    _preload => 1,
-    _style   => 'gettext',
-    _decode  => 1,
-};
-
+use Locale::Maketext::Lexicon \$$klass\::L10N::LEXICON_OPTION;
 1;
 !;
     eval $code or die $@;
