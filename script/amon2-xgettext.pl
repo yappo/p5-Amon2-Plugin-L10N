@@ -1,7 +1,6 @@
 #!/usr/bin/perl
 use strict;
 use warnings;
-use utf8;
 use Locale::Maketext::Extract;
 use Locale::Maketext::Extract::Plugin::Xslate;
 use File::Find::Rule;
