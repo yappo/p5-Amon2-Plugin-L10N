@@ -45,3 +45,35 @@ for my $lang (@ARGV) {
     $extract->compile(1);
     $extract->write_po("po/$lang.po");
 }
+__END__
+
+=encoding utf-8
+
+=head1 NAME
+
+amon2-xgettext.pl - .po file generater for Amon2 applications
+
+=head1 USAGE
+
+  $ amon2-xgettext.pl en ja zh-tw zh-cn fr
+  $ ls ./po/
+  en.po ja.po zh-tw.po zh-cn.po fr.po
+
+=head1 AUTHOR
+
+Kazuhiro Osawa E<lt>yappo {at} shibuya {dot} plE<gt>
+
+=head1 COPYRIGHT
+
+Copyright 2013- Kazuhiro Osawa
+
+=head1 LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=head1 SEE ALSO
+
+L<Amon2::Plugin::L10N>
+
+=cut
