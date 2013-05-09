@@ -44,21 +44,21 @@ Amon2::Plugin::L10N is L10N support plugin for Amon2.
         accept_langs          => [qw/ en ja zh-tw zh-cn fr /],
         before_detection_hook => sub {
             my $c = shift;
+            return unless ref($c);
     
 
+            my $accept_re = qr/\A(?:en|ja|zh-tw)\z/;
             my $lang = $c->req->param('lang');
-            if ($lang && $lang =~ /\A(?:en|ja|zh-tw)\z/) {
+            if ($lang && $lang =~ $accept_re) {
                 $c->session->set( lang => $lang );
                 return $lang;
-            } else {
-                $c->session->set( lang => '' );
+            } elsif (! defined $lang) {
+                $lang = $c->session->get('lang');
+                if ($lang && $lang =~ $accept_re) {
+                    return $lang;
+                }
             }
-    
-
-            $lang = $c->session->get('lang');
-            if ($lang && $lang =~ /\A(?:en|ja|zh-tw)\z/) {
-                return $lang;
-            }
+            $c->session->set( lang => '' );
             return; # through
         },
     });
@@ -122,6 +122,12 @@ Amon2::Plugin::L10N is L10N support plugin for Amon2.
     });
 
 # Translation Step
+
+## installing dependent module of amon2-xgettext.pl
+
+    $ cpanm --width-suggests Amon2::Plugin::L10N
+
+dependnt module list in the [cpanfile](http://search.cpan.org/perldoc?cpanfile) file.
 
 ## write your application
 
