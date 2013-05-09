@@ -4,6 +4,7 @@ use warnings;
 use Locale::Maketext::Extract;
 use Locale::Maketext::Extract::Plugin::Xslate;
 use File::Find::Rule;
+use File::Spec;
 
 my $extract = Locale::Maketext::Extract->new(
     plugins  => {
@@ -34,7 +35,8 @@ POT
 
 mkdir 'po';
 for my $lang (@ARGV) {
-    $extract->read_po("po/$lang.po") if -f "po/$lang.po";
+    my $file = File::Spec->catfile('po', "$lang.po");
+    $extract->read_po($file) if -f $file;
 
     $extract->extract_file($_) for (
         File::Find::Rule->file()->name(qr/.*\.(?:pm|pl)/)->in('lib'),
@@ -42,7 +44,7 @@ for my $lang (@ARGV) {
     );
 
     $extract->compile(1);
-    $extract->write_po("po/$lang.po");
+    $extract->write_po($file);
 }
 __END__
 
