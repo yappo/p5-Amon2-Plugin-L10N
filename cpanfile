@@ -9,6 +9,8 @@ requires 'Locale::Maketext',                          '0';
 suggests 'Locale::Maketext::Extract',                 '0';
 suggests 'Locale::Maketext::Extract::Plugin::Xslate', '0';
 suggests 'File::Find::Rule',                          '0';
+suggests 'Getopt::Long',                              '0';
+suggests 'Pod::Usage',                                '0';
 
 on test => sub {
     requires 'Test::More',                 '0.88';

@@ -5,6 +5,24 @@ use Locale::Maketext::Extract;
 use Locale::Maketext::Extract::Plugin::Xslate;
 use File::Find::Rule;
 use File::Spec;
+use Getopt::Long;
+use Pod::Usage;
+
+GetOptions(
+    'help'     => \my $help,
+    'po-dir=s' => \my $po_dir,
+    'version'  => \my $version,
+) or pod2usage(1);
+
+if ($version) {
+    require Amon2::Plugin::L10N;
+    print "Amon2::Plugin::L10N: $Amon2::Plugin::L10N::VERSION\n";
+    exit(0);
+}
+pod2usage(0) if $help;
+
+@ARGV or pod2usage(1);
+$po_dir ||= 'po';
 
 my $extract = Locale::Maketext::Extract->new(
     plugins  => {
@@ -33,9 +51,9 @@ msgstr ""
 POT
 );
 
-mkdir 'po';
+mkdir $po_dir;
 for my $lang (@ARGV) {
-    my $file = File::Spec->catfile('po', "$lang.po");
+    my $file = File::Spec->catfile($po_dir, "$lang.po");
     $extract->read_po($file) if -f $file;
 
     $extract->extract_file($_) for (
@@ -59,6 +77,13 @@ amon2-xgettext.pl - .po file generater for Amon2 applications
   $ amon2-xgettext.pl en ja zh-tw zh-cn fr
   $ ls ./po/
   en.po ja.po zh-tw.po zh-cn.po fr.po
+
+  $ amon2-xgettext.pl --po-dir=translate en ja zh-tw zh-cn fr
+  $ ls ./translate/
+  en.po ja.po zh-tw.po zh-cn.po fr.po
+
+  $ amon2-xgettext.pl --help
+  $ amon2-xgettext.pl --version
 
 =head1 AUTHOR
 
