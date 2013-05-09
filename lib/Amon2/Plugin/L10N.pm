@@ -262,6 +262,7 @@ it under the same terms as Perl itself.
 
 L<Amon2>,
 L<Locale::Maketext::Lexicon>,
-L<HTTP::AcceptLanguage>
+L<HTTP::AcceptLanguage>,
+L<amon2-xgettext.pl>
 
 =cut

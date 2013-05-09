@@ -158,4 +158,5 @@ it under the same terms as Perl itself.
 
 [Amon2](http://search.cpan.org/perldoc?Amon2),
 [Locale::Maketext::Lexicon](http://search.cpan.org/perldoc?Locale::Maketext::Lexicon),
-[HTTP::AcceptLanguage](http://search.cpan.org/perldoc?HTTP::AcceptLanguage)
+[HTTP::AcceptLanguage](http://search.cpan.org/perldoc?HTTP::AcceptLanguage),
+[amon2-xgettext.pl](http://search.cpan.org/perldoc?amon2-xgettext.pl)
