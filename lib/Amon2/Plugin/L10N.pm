@@ -229,7 +229,7 @@ Amon2::Plugin::L10N is L10N support plugin for Amon2.
 
 =head2 installing dependent module of amon2-xgettext.pl
 
-  $ cpanm --width-suggests Amon2::Plugin::L10N
+  $ cpanm --with-suggests Amon2::Plugin::L10N
 
 dependnt module list in the L<cpanfile> file.
 
