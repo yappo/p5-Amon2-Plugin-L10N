@@ -141,6 +141,16 @@ dependnt module list in the [cpanfile](http://search.cpan.org/perldoc?cpanfile) 
     $ vim po/ja.po
     $ vim po/zh-tw.po
 
+# Add Amon2 Context Method
+
+## $c->l10n\_language\_detection
+
+Language that is detected will return.
+
+## $c->loc($message), $c->loc('foo %1 .. %2 ...', @args);
+
+It will return the text in the appropriate language.
+
 # AUTHOR
 
 Kazuhiro Osawa <yappo {at} shibuya {dot} pl>

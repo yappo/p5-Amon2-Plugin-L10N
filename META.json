@@ -39,6 +39,7 @@
             "Amon2" : "0",
             "HTTP::AcceptLanguage" : "0.01",
             "Locale::Maketext" : "0",
+            "Locale::Maketext::Lexicon" : "0",
             "parent" : "0",
             "perl" : "5.008005"
          },
