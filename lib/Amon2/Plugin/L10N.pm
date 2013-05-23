@@ -245,6 +245,16 @@ dependnt module list in the L<cpanfile> file.
   $ vim po/ja.po
   $ vim po/zh-tw.po
 
+=head1 Add Amon2 Context Method
+
+=head2 $c->l10n_language_detection
+
+Language that is detected will return.
+
+=head2 $c->loc($message), $c->loc('foo %1 .. %2 ...', @args);
+
+It will return the text in the appropriate language.
+
 =head1 AUTHOR
 
 Kazuhiro Osawa E<lt>yappo {at} shibuya {dot} plE<gt>
