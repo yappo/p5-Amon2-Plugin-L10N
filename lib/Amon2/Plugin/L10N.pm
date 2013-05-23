@@ -56,13 +56,9 @@ sub init {
         $l10n{$lang} = $l10n_class->get_handle($lang);
     }
     my $default_l10n = $default_lang ? $l10n{$default_lang} : undef;
-    Amon2::Util::add_method($c, l10n => sub {
-        $l10n{$_[0]->l10n_language_detection} || $default_l10n;
-    });
-
     Amon2::Util::add_method($c, loc => sub {
         my $context = shift;
-        my $l10n = $context->l10n;
+        my $l10n = $l10n{$context->l10n_language_detection} || $default_l10n;
         return join ', ', @_ unless $l10n;
         return $l10n->maketext(@_);
     });
