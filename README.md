@@ -74,6 +74,18 @@ Amon2::Plugin::L10N is L10N support plugin for Amon2.
         },
     });
 
+## you can customize the po files name
+
+    __PACKAGE__->load_plugins('L10N' => {
+        accept_langs         => [qw/ zh-tw zh-cn zh /],
+        po_file_langs        => [qw/ zh-tw zh-cn /],    # zh.po is not exists file
+        after_detection_hook => sub {
+            my($c, $lang) = shift;
+            return 'zh-cn' if $lang eq 'zh'; # use zh-cn.po file
+            return $lang;
+        },
+    });
+
 ## for your CLI
 
     __PACKAGE__->load_plugins('L10N' => {
